@@ -1,0 +1,2 @@
+    StoryOutputService is the engine behind managing the printing of the
+    Image using the AsciiRenderer AND the printing of the event's text

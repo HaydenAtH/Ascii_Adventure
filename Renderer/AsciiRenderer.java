@@ -51,102 +51,105 @@ public class AsciiRenderer {
     }
 
     // [Renders an Image object]
-    public static void render(Image img) throws IOException{
-        String imagePath = img.fileName;
-        BufferedImage myPicture = ImageIO.read(new File(imagePath));
+    public static void render(Image img) throws IOException {
+        if (img != null) {
+            String imagePath = img.fileName;
+            BufferedImage myPicture = ImageIO.read(new File(imagePath));
 
-        double colorFilterModifier = img.modifier;
-        boolean inverse = img.inverse;
-        String[] textOverride = img.textOverride;
+            double colorFilterModifier = img.modifier;
+            boolean inverse = img.inverse;
+            String[] textOverride = img.textOverride;
 
-        int width = myPicture.getWidth();
-        int height =  myPicture.getHeight();
+            int width = myPicture.getWidth();
+            int height = myPicture.getHeight();
 
-        // Recording all present pixels of an image and their A-RGB values
+            // Recording all present pixels of an image and their A-RGB values
 
-        for (int i = 0; i < height; i++){
-            for (int z = 0; z < width; z++){
-                int p = myPicture.getRGB(z, i);
+            for (int i = 0; i < height; i++) {
+                for (int z = 0; z < width; z++) {
+                    int p = myPicture.getRGB(z, i);
 
-                int r = (p>>16) & 0xff;
-                int g = (p>>8) & 0xff;
-                int b = p & 0xff;
+                    int r = (p >> 16) & 0xff;
+                    int g = (p >> 8) & 0xff;
+                    int b = p & 0xff;
 
-                avgR += r;
-                avgG += g;
-                avgB += b;
+                    avgR += r;
+                    avgG += g;
+                    avgB += b;
 
-                // V is the pixel being recorded
+                    // V is the pixel being recorded
 
-                Vector2 v = new Vector2(z, i);
-                Vector3 c = new Vector3(r, g, b);
-                coordList.add(v);
+                    Vector2 v = new Vector2(z, i);
+                    Vector3 c = new Vector3(r, g, b);
+                    coordList.add(v);
 
-                pixelMap.put(v, c);
-                //System.out.println("Logged Pixel: " + z  + ", " + i);
+                    pixelMap.put(v, c);
+                    //System.out.println("Logged Pixel: " + z  + ", " + i);
+                }
             }
-        }
 
-        /*
+            /*
 
-        // TODO image downscaling method (Once I figure out how to do that lol)
+            // TODO image downscaling method (Once I figure out how to do that lol)
 
-        int crntX = 0;
-        int crntY = 0;
+            int crntX = 0;
+            int crntY = 0;
 
-        for (int y = 0; y < height; y++){
-            if (y % 2 != 0){
-                crntY += 1;
-                for (int x = 0; x < width; x++){
-                    if (x % 2 != 0) {
-                        crntX += 1;
+            for (int y = 0; y < height; y++){
+                if (y % 2 != 0){
+                    crntY += 1;
+                    for (int x = 0; x < width; x++){
+                        if (x % 2 != 0) {
+                            crntX += 1;
 
+                        }
+                    }
+                }
+
+            }
+
+             */
+
+            avgColor = (avgR + avgB + avgG) / (width * height);
+
+            // Writing to display map
+            for (int i = 0; i < coordList.size(); i++) {
+
+                Vector3 j = pixelMap.get(coordList.get(i));
+
+                if (j != null) {
+                    if ((j.x + j.y + j.z) > (avgColor * colorFilterModifier)) {
+                        displayMap.put(coordList.get(i), !inverse);
+                        System.out.println(coordList.get(i) + " Written to display map as True");
+                    } else {
+                        displayMap.put(coordList.get(i), inverse);
+                        System.out.println(coordList.get(i) + " Written to display map as False");
                     }
                 }
             }
 
-        }
+            // Displaying Relevant pixels as a product of getRandomStr on characterArray
+            String[] arr;
 
-         */
+            if (textOverride == null) {
+                arr = characterArray;
+            } else {
+                arr = textOverride;
+            }
 
-        avgColor = (avgR + avgB + avgG) / (width * height);
+            for (int i = 0; i < coordList.size(); i++) {
+                if (displayMap.get(coordList.get(i)) == true) {
+                    String text = getRandomStr(arr);
+                    System.out.print(text);
+                } else {
+                    System.out.print(" ");
+                }
 
-        // Writing to display map
-        for (int i = 0; i < coordList.size(); i++){
-
-            Vector3 j = pixelMap.get(coordList.get(i));
-
-            if (j != null){
-                if ((j.x + j.y + j.z) > (avgColor * colorFilterModifier)){
-                    displayMap.put(coordList.get(i), !inverse);
-                    System.out.println(coordList.get(i) + " Written to display map as True");
-                }else{
-                    displayMap.put(coordList.get(i), inverse);
-                    System.out.println(coordList.get(i) + " Written to display map as False");
+                if (i % width == 0) {
+                    System.out.println(" ");
                 }
             }
-        }
 
-        // Displaying Relevant pixels as a product of getRandomStr on characterArray
-        String[] arr;
-
-        if (textOverride == null){
-            arr = characterArray;
-        }else{
-            arr = textOverride;
-        }
-
-        for (int i = 0; i < coordList.size(); i++){
-            if (displayMap.get(coordList.get(i)) == true){
-                String text = getRandomStr(arr);
-                System.out.print(text);
-            }else{
-                System.out.print(" ");
-            }
-
-            if (i % width == 0){
-                System.out.println(" ");
-            }
         }
     }
 }

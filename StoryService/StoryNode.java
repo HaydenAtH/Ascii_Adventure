@@ -23,23 +23,38 @@ public class StoryNode {
     public void activate() throws IOException {
         this.output.activate();
         printOptions();
+
         String input = scanner.next();
         makeDecision(input);
+
 
     }
 
     // Input a string and cycle through sockets to check if it's a valid decision
-    public boolean isValidOption(String option){
-        return true;
+    public int isValidOption(String option){
+        for (int i = 0; i < sockets.size(); i++){
+            System.out.println(option.compareTo(sockets.get(i).getName()));
+            if (option == sockets.get(i).getName()){
+                return i;
+            }
+        }
+
+        return -1;
     }
 
     //Makes the decision based on string input
-    public void makeDecision(String decision){
-
+    public void makeDecision(String decision) throws IOException{
+        System.out.println((isValidOption(decision) != -1));
+        if (isValidOption(decision) != -1){
+            sockets.get(isValidOption(decision)).activate();
+        }
     }
 
     public void printOptions(){
-
+        for (int z = 0; z < sockets.size(); z++){
+            System.out.println(" ");
+            System.out.println("Option " + z + ": " + sockets.get(z).getName());
+        }
     }
 
     // Query Functions

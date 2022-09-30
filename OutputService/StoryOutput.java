@@ -18,16 +18,20 @@ public class StoryOutput {
 
 
 
-    public StoryOutput(String name, String textOutput, Image img){
+    public StoryOutput(String name, String textOutput, Image img) {
         this.name = name;
         this.textOutput = textOutput;
         this.img = img;
     }
 
+    public void printOptions(){
+
+    }
+
 
     //TODO Add exception for no image (Allow no image to be shown)
     public void activate() throws IOException {
-        System.out.println("Placeholder");
+        System.out.println(this.textOutput);
         AsciiRenderer.render(img);
     }
 

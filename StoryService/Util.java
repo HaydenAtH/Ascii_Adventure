@@ -3,7 +3,6 @@ package StoryService;
 import OutputService.StoryOutput;
 
 public class Util {
-    //TODO Add New Node/Merge Node Function
 
     public static void newNode(String nodeName, StoryOutput nodeOutput, StoryOutput branchOutput, StoryNode origin, String branchName){
         StoryNode newNode = new StoryNode(nodeName, nodeOutput);
