@@ -6,7 +6,7 @@ public class Util {
 
     public static void newNode(String nodeName, StoryOutput nodeOutput, StoryOutput branchOutput, StoryNode origin, String branchName){
         StoryNode newNode = new StoryNode(nodeName, nodeOutput);
-        newBranch(nodeOutput, origin, newNode, branchName);
+        newBranch(branchOutput, origin, newNode, branchName);
     }
 
     public static void newBranch(StoryOutput output, StoryNode node1, StoryNode node2, String name){
