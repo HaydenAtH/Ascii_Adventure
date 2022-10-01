@@ -44,7 +44,7 @@ public class StoryNode {
                 if (isValidOption(input) != -1){
                     validInput = true;
                     makeDecision(input);
-                }else if (h % 3 == 0){
+                }else {
                     System.out.println("> Invalid Input, Please Retry");
                 }
             }
@@ -73,6 +73,7 @@ public class StoryNode {
     }
 
     public void printOptions() {
+        System.out.print("--------------------------------------------------------------------------------------");
         for (int z = 0; z < sockets.size(); z++){
             System.out.println(" ");
             System.out.println("> " + "Option " + (z + 1) + ": " + sockets.get(z).getName());

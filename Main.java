@@ -16,7 +16,7 @@ public class Main {
 
         Event gate_branch_open = new Event("Open The Gate", "With all your might you push the large wooden gate open revealing...", null);
         Event node_event_descTown = new Event("NodeEvent", "A bustling town, filled with traders, peasants, knights, and adventurers all living amongst each other", null);
-        Util.newNode("NextNode", gate_branch_open, node_event_descTown, originNode, "Open The Gate");
+        Util.newNode("NextNode", node_event_descTown, gate_branch_open, originNode, "Open The Gate");
 
         Event gate_branch_investigate = new Event("Investigate", "You thoroughly investigate the area", null);
         Event node_event_investigationDesc = new Event("NodeEvent", "You discover a trap, you are unsure if it is for animals.. or people", null);
