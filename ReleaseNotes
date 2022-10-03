@@ -16,3 +16,6 @@ NONE
 -Expand support for Dialogue (?)
 -Add support for variable based choice/dialogue options
 -Make longer demo to get a feel for the workflow/improvements
+-POTENTIALLY clear terminal for every node 
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
