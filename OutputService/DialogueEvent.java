@@ -11,8 +11,4 @@ public class DialogueEvent extends StoryOutput {
         super(name, textOutput, img);
     }
 
-    @Override
-    public void activate() {
-
-    }
 }

@@ -20,7 +20,11 @@ public class StoryBranch {
     }
 
     public void activate() throws IOException {
-        this.output.activate();
+        if (this.output != null){
+            this.output.activate();
+        }
+
+        this.endpoint.setTriggeredBranch(this);
         this.endpoint.activate();
     }
 

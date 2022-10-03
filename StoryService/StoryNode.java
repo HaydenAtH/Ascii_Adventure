@@ -13,6 +13,10 @@ public class StoryNode {
     String name;
     ArrayList<StoryBranch> sockets = new ArrayList<StoryBranch>();
 
+    protected StoryBranch triggeredBranch; // Used for tracing back the previous node that was triggered
+
+    String[] letters = {"A", "B", "C", "D", "E", "F", "G", "H"};
+
     StoryOutput output;
     protected boolean validInput = false;
 
@@ -23,9 +27,11 @@ public class StoryNode {
     }
 
     public void activate() throws IOException {
+        validInput = false;
         this.output.activate();
         printOptions();
         int h = 0;
+
 
         while (validInput == false){
             h++;
@@ -57,7 +63,7 @@ public class StoryNode {
     // Input a string and cycle through sockets to check if it's a valid decision
     public int isValidOption(String option){
         for (int i = 0; i < sockets.size(); i++){
-            if (option.equals(sockets.get(i).getName())){
+            if (option.equals(sockets.get(i).getName()) || option.equals(letters[i])){
                 return i;
             }
         }
@@ -67,17 +73,39 @@ public class StoryNode {
 
     //Makes the decision based on string input
     public void makeDecision(String decision) throws IOException {
-        if (isValidOption(decision) != -1){
-            sockets.get(isValidOption(decision)).activate();
-        }
+        sockets.get(isValidOption(decision)).activate();
     }
 
     public void printOptions() {
         System.out.print("--------------------------------------------------------------------------------------");
+
+        if (this.output.getClass().getName().equals("OutputService.DialogueEvent") && !socketsHas("Back")){
+            StoryBranch traceBackBranch = new StoryBranch(this, triggeredBranch.getOrigin(), null, "Back");
+            sockets.add(traceBackBranch);
+        }
+
         for (int z = 0; z < sockets.size(); z++){
             System.out.println(" ");
-            System.out.println("> " + "Option " + (z + 1) + ": " + sockets.get(z).getName());
+            System.out.println("> " + "Option " + (letters[z]) + ": " + sockets.get(z).getName());
         }
+    }
+
+    public StoryNode getPreviousNode(){
+        if (this.triggeredBranch != null){
+            return this.triggeredBranch.origin;
+        }else{
+            System.out.println("Err: Triggered Branch is Null");
+        }
+        return null;
+    }
+
+    public boolean socketsHas(String inp){
+        for (int i = 0; i < sockets.size(); i++){
+            if (Objects.equals(sockets.get(i).getName(), inp)){
+                return true;
+            }
+        }
+        return false;
     }
 
     // Query Functions
@@ -95,6 +123,10 @@ public class StoryNode {
         return name;
     }
 
+    public StoryBranch getTriggeredBranch() {
+        return triggeredBranch;
+    }
+
     // Declarative/Additive Functions
 
     public void setName(String name) {
@@ -103,6 +135,10 @@ public class StoryNode {
 
     public void setOutput(StoryOutput output) {
         this.output = output;
+    }
+
+    public void setTriggeredBranch(StoryBranch triggeredBranch) {
+        this.triggeredBranch = triggeredBranch;
     }
 
     public void addBranch(StoryBranch newBranch){

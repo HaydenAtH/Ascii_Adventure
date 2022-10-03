@@ -120,10 +120,10 @@ public class AsciiRenderer {
                 if (j != null) {
                     if ((j.x + j.y + j.z) > (avgColor * colorFilterModifier)) {
                         displayMap.put(coordList.get(i), !inverse);
-                        System.out.println(coordList.get(i) + " Written to display map as True");
+                        //System.out.println(coordList.get(i) + " Written to display map as True");
                     } else {
                         displayMap.put(coordList.get(i), inverse);
-                        System.out.println(coordList.get(i) + " Written to display map as False");
+                        //System.out.println(coordList.get(i) + " Written to display map as False");
                     }
                 }
             }
