@@ -12,7 +12,7 @@ public class Main {
         if (MMBypass == false){
             ModuleService.mainMenu();
         }else{
-            ModuleService.dialogueDemo();
+            ModuleService.gateDemo();
         }
     }
 }
