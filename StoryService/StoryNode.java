@@ -1,6 +1,9 @@
 package StoryService;
 
+import CombatService.Util;
+import OutputService.Encounter;
 import OutputService.StoryOutput;
+import PlayerService.PlayerInfo;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -26,38 +29,78 @@ public class StoryNode {
         this.output.setParentNode(this);
     }
 
-    public void activate() throws IOException {
+    public void activate() throws IOException, InterruptedException {
+        PlayerInfo.setCurrentNode(this);
         validInput = false;
         this.output.activate();
         printOptions();
         int h = 0;
 
+        //TODO Add combat loop
 
-        while (validInput == false){
-            h++;
+        //Warning: Some placeholder code present
 
-            String input = scanner.nextLine();
+        if (this.output.getClass().getName().equals("StoryOutput.Encounter") == false){
+            while (validInput == false){
+                h++;
 
-            if (true){
-                if (Objects.equals(input, "debug")){
-                    System.out.println("Debug Values Below: ");
-                    System.out.println("> " + this.getName());
-                    System.out.println("> " + this.getSockets());
-                    System.out.println("> " + this.getOutput());
+                String input = scanner.nextLine();
 
-                }
+                if (true){
+                    if (Objects.equals(input, "debug")){
+                        System.out.println("Debug Values Below: ");
+                        System.out.println("> " + this.getName());
+                        System.out.println("> " + this.getSockets());
+                        System.out.println("> " + this.getOutput());
+                    } else if(Objects.equals(input, "quit")){
+                        ModuleService.mainMenu();
+                    }
 
-                if (isValidOption(input) != -1){
-                    validInput = true;
-                    makeDecision(input);
-                }else {
-                    System.out.println("> Invalid Input, Please Retry");
+                    if (isValidOption(input) != -1){
+                        validInput = true;
+                        makeDecision(input);
+                    }else {
+                        System.out.println("> Invalid Input, Please Retry");
+                    }
                 }
             }
+        }else {
+            boolean combatActive = true;
+
+            while (combatActive == true){
+                int t = 0; //Turn Counter
+                while (validInput == false){
+                    if (t % 2 == 0){
+                        // Player Turn
+                        Util.printCombatOptions();
+
+                        String inp = scanner.nextLine();
+                        int x = 0;
+
+                        if (inp.equals("Attack")){
+                            x = Util.playerAttack((Encounter) this.output);
+                        }else if (inp.equals("Heal")){
+                            x = Util.playerHeal();
+                        }else if (inp.equals("Wait")){
+                            x = Util.playerWait();
+                        }
+
+                        if (x == -1){
+                            System.out.println("> Insufficient Stamina");
+                        }else if (x == 1){
+                            validInput = true;
+                        }else if (x == 2){
+                            combatActive = false;
+                        }
+                    }else{
+                        //Enemy Turn
+                        Util.enemyTurn((Encounter) this.output);
+                    }
+                }
+                t++;
+                validInput = false;
+            }
         }
-
-
-
     }
 
     // Input a string and cycle through sockets to check if it's a valid decision
@@ -72,7 +115,7 @@ public class StoryNode {
     }
 
     //Makes the decision based on string input
-    public void makeDecision(String decision) throws IOException {
+    public void makeDecision(String decision) throws IOException, InterruptedException {
         sockets.get(isValidOption(decision)).activate();
     }
 
@@ -89,6 +132,8 @@ public class StoryNode {
             System.out.println("> " + "Option " + (letters[z]) + ": " + sockets.get(z).getName());
         }
     }
+
+
 
     public StoryNode getPreviousNode(){
         if (this.triggeredBranch != null){

@@ -1,38 +1,28 @@
 package OutputService;
 
+import CombatService.Enemy;
 import Renderer.Image;
 
 public class Encounter extends StoryOutput {
-    protected int enemyHP;
-    protected int enemyAP;
-    protected int enemyDamage;
+    protected Enemy enemy = new Enemy(10, 10, 10);
 
     public Encounter(String name, String textOutput, Image img) {
         super(name, textOutput, img);
     }
 
-    @Override
-    public void activate() {
-
+    public void setEnemy(int ap, int dmg, int hp){
+        this.enemy.setEnemyAP(ap);
+        this.enemy.setEnemyDamage(dmg);
+        this.enemy.setEnemyHP(hp);
     }
 
-    public int getEnemyAP() {
-        return enemyAP;
+    public void setEnemy(Enemy inpEnemy){
+        this.enemy.setEnemyAP(inpEnemy.getEnemyAP());
+        this.enemy.setEnemyDamage(inpEnemy.getEnemyDamage());
+        this.enemy.setEnemyHP(inpEnemy.getEnemyHP());
     }
 
-    public int getEnemyDamage() {
-        return enemyDamage;
-    }
-
-    public int getEnemyHP() {
-        return enemyHP;
-    }
-
-    public void setEnemyHP(){
-        this.enemyHP = enemyHP;
-    }
-
-    public void setEnemyAP(int enemyAP) {
-        this.enemyAP = enemyAP;
+    public Enemy getEnemy(){
+        return this.enemy;
     }
 }

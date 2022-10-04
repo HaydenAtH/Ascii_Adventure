@@ -12,14 +12,13 @@ import java.util.Scanner;
 public class ModuleService {
 
     Image prlEarings = new Image("H:\\TextBasedStory\\src\\Renderer\\Images\\pearlEarings.jpg", 1.05, null, false);
-    Image monaLisa = new Image("H:\\TextBasedStory\\src\\Renderer\\Images\\monaLisa.jpg", 0.75, null, false);
+    static Image monaLisa = new Image("H:\\TextBasedStory\\src\\Renderer\\Images\\monaLisa.jpg", 0.75, null, false);
 
     public static void mainMenu() throws InterruptedException, IOException {
         Image logo = new Image("H:\\TextBasedStory\\src\\Renderer\\Images\\Logo.jpg", 1, null, true);
         boolean mmValidInput = false;
         Scanner scnr = new Scanner(System.in);
 
-        System.out.println("> Without further ado... Welcome to");
         Thread.sleep(1000);
         System.out.println("-----------------------------------------------------------------------------------------------------------------------------------------------------------");
         AsciiRenderer.render(logo);
@@ -28,7 +27,7 @@ public class ModuleService {
         Thread.sleep(1000);
         System.out.println("-----------------------------------------------------------------------------------------------------------------------------------------------------------");
         System.out.println("> Please pick a story demo to play!");
-        System.out.println("> Each story lasts ~10 - 20 minutes but use the command :quit to quit at any time");
+        System.out.println("> Each story lasts ~10 - 20 minutes but use the command 'quit' to return to the main menu at any time");
 
         while (mmValidInput == false){
             String input = scnr.nextLine();
@@ -39,7 +38,7 @@ public class ModuleService {
             }
         }
     }
-    public static void gateDemo() throws IOException {
+    public static void gateDemo() throws IOException, InterruptedException {
         Event originEvent = new Event("OriginEvent", "You walk towards the large wooden gate, aged by rain, snow and bloodshed. The thick, snowy hills surround you with tundra and large alpine trees block the sun", null);
         StoryNode originNode = new StoryNode("OriginNode", originEvent);
 
@@ -54,7 +53,7 @@ public class ModuleService {
         originNode.activate();
     }
 
-    public static void dialogueDemo() throws IOException {
+    public static void dialogueDemo() throws IOException, InterruptedException {
         Event originEvent = new Event("OriginEvent", "Frank: Hello!", null);
         StoryNode originNode = new StoryNode("OriginNode", originEvent);
 

@@ -19,7 +19,7 @@ public class StoryBranch {
         this.origin.addBranch(this);
     }
 
-    public void activate() throws IOException {
+    public void activate() throws IOException, InterruptedException {
         if (this.output != null){
             this.output.activate();
         }

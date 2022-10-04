@@ -3,19 +3,17 @@
 NONE
 
 #Release Notes
-0.1.1
+0.1.2
 
--Added triggered branch support (and associated query functions )for StoryNodes allowing StoryOutputs and StoryNodes to trace the branch that triggered them and by extension the node
--Implemented Dialogue demo with loopback option on every Dialogue Event node
--Some misc utility functions for StoryNode for checking contents of sockets and other similar functions that may come up in the future
--Fixed bug that caused an additional "Back" prompt to appear incrementally every time a node was looped back to
--Added null exceptions for certain classes (Branch, output, etc)
+-Implemented bones of combat framework
+-Added PlayerService to serve as the repository for all data relevant to the player including combat stats
+-Support for utility functions in all added services
+
 
 #3 AM TO-DOs
--Add combat system
 -Expand support for Dialogue (?)
 -Add support for variable based choice/dialogue options
 -Make longer demo to get a feel for the workflow/improvements
--POTENTIALLY clear terminal for every node 
+-POTENTIALLY clear terminal for every node
         System.out.print("\033[H\033[2J");
         System.out.flush();
