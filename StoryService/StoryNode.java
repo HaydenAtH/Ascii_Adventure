@@ -1,5 +1,6 @@
 package StoryService;
 
+import CombatService.Enemy;
 import CombatService.Util;
 import OutputService.Encounter;
 import OutputService.StoryOutput;
@@ -40,7 +41,7 @@ public class StoryNode {
 
         //Warning: Some placeholder code present
 
-        if (this.output.getClass().getName().equals("StoryOutput.Encounter") == false){
+        if (!this.output.getClass().getName().equals("OutputService.Encounter")){
             while (validInput == false){
                 h++;
 
@@ -66,35 +67,91 @@ public class StoryNode {
             }
         }else {
             boolean combatActive = true;
+            Encounter evnt = (Encounter) this.output;
+            Enemy enemy = evnt.getEnemy();
+            int t = 0; //Turn Counter
 
             while (combatActive == true){
-                int t = 0; //Turn Counter
                 while (validInput == false){
                     if (t % 2 == 0){
+                        Thread.sleep(2000);
                         // Player Turn
+                        System.out.println(" ");
                         Util.printCombatOptions();
+                        System.out.println("---------------------------------------------");
+                        Util.printPlayerStats();
 
                         String inp = scanner.nextLine();
                         int x = 0;
 
                         if (inp.equals("Attack")){
                             x = Util.playerAttack((Encounter) this.output);
+
+                            if (x == -1){
+                                System.out.println("> Insufficient Stamina");
+                            }else if (x == 1){
+                                validInput = true;
+                                //Util.printEnemyStats(evnt.getEnemy());
+                                System.out.println("---------------------------------------------");
+                            }else if (x == 2){
+                                System.out.println("Enemy Slain!");
+                                validInput = true;
+                                combatActive = false;
+                            }
+
                         }else if (inp.equals("Heal")){
                             x = Util.playerHeal();
+
+                            if (x == -1){
+                                System.out.println("> Insufficient Stamina");
+                            }else if (x == 1){
+                                validInput = true;
+                                System.out.println("---------------------------------------------");
+                                //Util.printEnemyStats(evnt.getEnemy());
+                            }
                         }else if (inp.equals("Wait")){
                             x = Util.playerWait();
+
+                            if (x == -1){
+                                //Player Dead
+                                combatActive = false;
+                            }else if (x == 1){
+                                validInput = true;
+                                System.out.println("---------------------------------------------");
+                                //Util.printEnemyStats(evnt.getEnemy());
+                            }
                         }
 
-                        if (x == -1){
-                            System.out.println("> Insufficient Stamina");
-                        }else if (x == 1){
-                            validInput = true;
-                        }else if (x == 2){
-                            combatActive = false;
-                        }
+
                     }else{
                         //Enemy Turn
-                        Util.enemyTurn((Encounter) this.output);
+
+                        // Return 1 for successful attack
+                        // Return 2 for successful heal
+                        // Return 3 for successful wait
+
+                        // Return -1 for player death
+                        // Return -2 for enemy death
+
+                        //TODO Fix display issues here
+                        //TODO render enemy img
+
+                        int x = Util.enemyTurn((Encounter) this.output);
+
+                        if (x == 1){
+                            System.out.println("> " + enemy.getName() + " attacked you for" + enemy.getEnemyDamage() + "damage!");
+                        } else if(x == 2){
+                            System.out.println("> " + enemy.getName() + " healed themselves for 3 health");
+                        } else if(x == 3){
+                            System.out.println("> " + enemy.getName() + " waited and earned 3 AP back");
+                        }else if (x == -1){
+
+                        }
+
+                        Util.printEnemyStats(enemy);
+                        validInput = true;
+
+                        //TODO add exception for enemy death
                     }
                 }
                 t++;

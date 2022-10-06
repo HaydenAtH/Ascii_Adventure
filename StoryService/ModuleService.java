@@ -1,6 +1,8 @@
 package StoryService;
 
+import CombatService.Enemy;
 import OutputService.DialogueEvent;
+import OutputService.Encounter;
 import OutputService.Event;
 import Renderer.AsciiRenderer;
 import Renderer.Image;
@@ -15,7 +17,7 @@ public class ModuleService {
     static Image monaLisa = new Image("H:\\TextBasedStory\\src\\Renderer\\Images\\monaLisa.jpg", 0.75, null, false);
 
     public static void mainMenu() throws InterruptedException, IOException {
-        Image logo = new Image("H:\\TextBasedStory\\src\\Renderer\\Images\\Logo.jpg", 1, null, true);
+        Image logo = new Image("C:\\Development\\Tools\\IntelliJ\\Ascii_Adventure\\src\\Renderer\\Images\\Logo.jpg", 1, null, true);
         boolean mmValidInput = false;
         Scanner scnr = new Scanner(System.in);
 
@@ -67,6 +69,16 @@ public class ModuleService {
         Event dialogue_branch_greeting3 = new Event("Bonjour", "Frank Nods", null);
         Util.newBranch(dialogue_branch_greeting3, dialogue1Node, originNode, "Hey!");
 
+        originNode.activate();
+    }
+
+    public static void combatDemo() throws IOException, InterruptedException {
+
+        Enemy enemy = new Enemy(10, 5, 20, "Skeleton", null);
+        Encounter enctr = new Encounter("EncounterNode", "A Skeleton jumps you!", null);
+        enctr.setEnemy(enemy);
+
+        StoryNode originNode = new StoryNode("OriginNode", enctr);
         originNode.activate();
     }
 

@@ -2,7 +2,9 @@ package CombatService;
 
 import OutputService.Encounter;
 import PlayerService.PlayerInfo;
+import Renderer.AsciiRenderer;
 
+import java.io.IOException;
 import java.util.Scanner;
 
 public class Util {
@@ -14,7 +16,7 @@ public class Util {
 
     // Handles the checks of AP, HP, etc. and deals out damage if applicable, returning a completion code
     public static int playerAttack(Encounter output){
-        if (PlayerInfo.getHp() > 0 && PlayerInfo.getActionPoints() >= 5){
+        if (PlayerInfo.getActionPoints() >= 5){
             output.getEnemy().dealDamage(PlayerInfo.getDamage());
             PlayerInfo.modifyActionPoints(-5);
             if (output.getEnemy().update() == 0){
@@ -26,10 +28,6 @@ public class Util {
         return -1;
     }
 
-
-
-
-
     public static int playerWait(){
         if (PlayerInfo.getHp() > 0){
             PlayerInfo.modifyActionPoints(5);
@@ -39,7 +37,7 @@ public class Util {
     }
 
     public static int playerHeal(){
-        if (PlayerInfo.getHp() > 0 && PlayerInfo.getActionPoints() > 3){
+        if (PlayerInfo.getActionPoints() > 3){
             PlayerInfo.healHP(5);
             PlayerInfo.modifyActionPoints(-3);
             return 1;
@@ -94,30 +92,108 @@ public class Util {
     // Return 3 for successful wait
 
     // Return -1 for player death
+    // Return -2 for enemy death
 
-    public static int enemyTurn(Encounter output){
+    //TODO add additional player feedback and clarify turns and displays
+    public static int enemyTurn(Encounter output) throws InterruptedException {
+        System.out.println("The " + output.getEnemy().getName() + " is making their move");
+        Thread.sleep(3000);
         Enemy enmy = output.getEnemy();
         int x = 0;
 
         if (enmy.getEnemyHP() > 0){
             if (enmy.getEnemyHP() < (enmy.getTotalEnemyHP() / 2)){
                 x = Util.enemyHeal(enmy);
+
+                if (x == 1){
+                    //Success
+                    return 2;
+                }else if (x == -1){
+                    //Not enough AP
+                    x = Util.enemyWait(enmy);
+
+                    if (x == 1){
+                        //Success
+                        return 3;
+                    }
+                }
             }else if(enmy.getEnemyAP() < 4){
                 x = Util.enemyWait(enmy);
+
+                if (x == 1){
+                    //Success
+                    return 3;
+                }
             }else {
-                if (Util.enemyAttack(enmy) == )
+                x = Util.enemyAttack(enmy);
+
+                if (x == 1){
+                    //Successful attack
+                    return 1;
+                }else if (x == 2){
+                    //Player dead
+                    return -1;
+                }
             }
             Util.enemyAttack(enmy);
         }
+        return -2;
+    }
+
+    public static void printEnemyStats(Enemy enemy) throws IOException {
+        AsciiRenderer.render(enemy.getImg());
+        System.out.println("--------------------------------------------------------------------------------------");
+        System.out.println(" ");
+        System.out.println("Enemy Stats <");
+        System.out.println(" ");
+        System.out.println("Enemy HP <");
+        for (int i = 0; i < enemy.getTotalEnemyHP(); i++){
+            if (i <= enemy.getEnemyHP()){
+                System.out.print("I");
+            }else {
+                System.out.print(".");
+            }
+        }
+        System.out.print("| " + enemy.getEnemyHP() + "/" + enemy.getTotalEnemyHP() + " <");
+        System.out.println(" ");
+
+        System.out.println("Enemy AP <");
+        for (int i = 0; i < enemy.getEnemyAP(); i++){
+            System.out.print("I");
+        }
+        System.out.println("| " + enemy.getEnemyAP() + " <");
+        System.out.println(" ");
+        System.out.println("--------------------------------------------------------------------------------------");
+    }
+
+    public static void printPlayerStats(){
+        System.out.println("Your Stats <");
+        System.out.println(" ");
+        System.out.println("Your HP <");
+        for (int i = 0; i < PlayerInfo.getTotalHP(); i++){
+            if (i <= PlayerInfo.getHp()){
+                System.out.print("I");
+            }else {
+                System.out.print(".");
+            }
+        }
+        System.out.print("| " + PlayerInfo.getHp() + "/" + PlayerInfo.getTotalHP() + " <");
+        System.out.println(" ");
+
+        System.out.println("Your AP <");
+        for (int i = 0; i < PlayerInfo.getActionPoints(); i++){
+            System.out.print("I");
+        }
+        System.out.println("| " + PlayerInfo.getActionPoints() + " <");
+        System.out.println(" ");
+        System.out.println("--------------------------------------------------------------------------------------");
     }
 
     public static void printCombatOptions() {
-        String input = scanner.nextLine();
-
-        System.out.print("--------------------------------------------------------------------------------------");
         // Player Turn
-        System.out.println("> It's Your Turn!");
-        System.out.println("> Here are your options:");
+        System.out.println("> Your Turn!");
+        System.out.println(" ");
+        System.out.println("> Combat Options:");
         System.out.println("> Attack: " + PlayerInfo.getDamage() + " Damage");
         System.out.println("> Heal: 5 Hit Points | Costs 5 Action Points");
         System.out.println("> Wait: +5 Action Points");

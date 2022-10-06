@@ -7,6 +7,7 @@ public class PlayerInfo {
     protected static int damage = 5; // Could later be replaced with a weapon datatype
 
     protected static int actionPoints = 10; // Costs action points to attack/heal
+    protected static int totalHP = 20;
 
     protected static StoryNode currentNode;
 
@@ -24,11 +25,16 @@ public class PlayerInfo {
         return currentNode;
     }
 
+    public static int getTotalHP() {
+        return totalHP;
+    }
+
     public static int getActionPoints(){
         return actionPoints;
     }
 
     //Declarative/Modification Functions
+
 
     public static void dealDamage(int dmg){
         PlayerInfo.hp -= dmg;
@@ -41,6 +47,8 @@ public class PlayerInfo {
     public static void modifyActionPoints(int apMod){
         PlayerInfo.actionPoints += apMod;
     }
+
+    // TODO add exception to prevent HP from getting above max
 
     public static void healHP(int healHP){
         PlayerInfo.hp += healHP;

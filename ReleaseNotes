@@ -1,19 +1,14 @@
 #Known Bugs
 
-NONE
+-Occasional visual bugs with the combat turns
 
 #Release Notes
-0.1.2
+0.1.3
 
--Implemented bones of combat framework
--Added PlayerService to serve as the repository for all data relevant to the player including combat stats
+-Implemented initial functionality of combat system
+-Expanded support for player and enemy classes with accompanying image files (Only for enemies atm)
 -Support for utility functions in all added services
 
 
 #3 AM TO-DOs
--Expand support for Dialogue (?)
--Add support for variable based choice/dialogue options
--Make longer demo to get a feel for the workflow/improvements
--POTENTIALLY clear terminal for every node
-        System.out.print("\033[H\033[2J");
-        System.out.flush();
+-Moved to github project

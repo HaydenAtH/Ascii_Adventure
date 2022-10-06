@@ -1,5 +1,7 @@
 package CombatService;
 
+import Renderer.Image;
+
 public class Enemy {
     protected int enemyAP;
     protected int enemyDamage;
@@ -7,16 +9,22 @@ public class Enemy {
 
     protected int totalEnemyHP;
 
-    public Enemy(int enemyAP, int enemyDamage, int enemyHP){
+    protected String name;
+
+    protected Image img;
+
+    public Enemy(int enemyAP, int enemyDamage, int enemyHP, String name, Image img){
         this.enemyAP = enemyAP;
         this.enemyDamage = enemyDamage;
         this.enemyHP = enemyHP;
+        this.name = name;
         this.totalEnemyHP = enemyHP;
+        this.img = img;
     }
 
-    // Check if dead
+    // Check if dead [0 for dead, 1 for alive]
     public int update(){
-        if (this.enemyHP >= 0){
+        if (this.enemyHP <= 0){
             return 0;
         }else {
             return 1;
@@ -27,6 +35,14 @@ public class Enemy {
 
     public int getEnemyAP() {
         return enemyAP;
+    }
+
+    public String getName(){
+        return this.name;
+    }
+
+    public Image getImg() {
+        return img;
     }
 
     public int getEnemyDamage() {
@@ -53,6 +69,10 @@ public class Enemy {
 
     public void addEnemyAP(int addAP){
         this.enemyAP += addAP;
+    }
+
+    public void setName(String name){
+        this.name = name;
     }
 
     public void setEnemyDamage(int enemyDamage) {

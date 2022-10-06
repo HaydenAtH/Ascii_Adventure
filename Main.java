@@ -14,7 +14,7 @@ public class Main {
             System.out.println("> Without further ado... Welcome to");
             ModuleService.mainMenu();
         }else{
-            ModuleService.gateDemo();
+            ModuleService.combatDemo();
         }
     }
 
