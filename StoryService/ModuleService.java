@@ -17,7 +17,7 @@ public class ModuleService {
     static Image monaLisa = new Image("H:\\TextBasedStory\\src\\Renderer\\Images\\monaLisa.jpg", 0.75, null, false);
 
     public static void mainMenu() throws InterruptedException, IOException {
-        Image logo = new Image("C:\\Development\\Tools\\IntelliJ\\Ascii_Adventure\\src\\Renderer\\Images\\Logo.jpg", 1, null, true);
+        Image logo = new Image("H:\\TextBasedStory\\src\\Renderer\\Images\\Logo.jpg", 1, null, true);
         boolean mmValidInput = false;
         Scanner scnr = new Scanner(System.in);
 

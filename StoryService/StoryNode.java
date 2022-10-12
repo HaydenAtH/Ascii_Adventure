@@ -5,6 +5,7 @@ import CombatService.Util;
 import OutputService.Encounter;
 import OutputService.StoryOutput;
 import PlayerService.PlayerInfo;
+import Renderer.AsciiRenderer;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -36,8 +37,6 @@ public class StoryNode {
         this.output.activate();
         printOptions();
         int h = 0;
-
-        //TODO Add combat loop
 
         //Warning: Some placeholder code present
 
@@ -72,14 +71,20 @@ public class StoryNode {
             int t = 0; //Turn Counter
 
             while (combatActive == true){
+                boolean turnPosted = false;
                 while (validInput == false){
                     if (t % 2 == 0){
                         Thread.sleep(2000);
                         // Player Turn
-                        System.out.println(" ");
-                        Util.printCombatOptions();
-                        System.out.println("---------------------------------------------");
-                        Util.printPlayerStats();
+                        if (turnPosted == false){
+                            //TODO Fix rendering bugs/duplicates during fighting
+                            //AsciiRenderer.render(PlayerInfo.getPlayerPortrait());
+                            System.out.println(" ");
+                            Util.printCombatOptions();
+                            System.out.println("---------------------------------------------");
+                            Util.printPlayerStats();
+                            turnPosted = true;
+                        }
 
                         String inp = scanner.nextLine();
                         int x = 0;
@@ -92,7 +97,8 @@ public class StoryNode {
                             }else if (x == 1){
                                 validInput = true;
                                 //Util.printEnemyStats(evnt.getEnemy());
-                                System.out.println("---------------------------------------------");
+                                System.out.println("Attacked " + evnt.getEnemy().getName() + " For " + PlayerInfo.getDamage() + " Damage");
+                                //System.out.println("---------------------------------------------");
                             }else if (x == 2){
                                 System.out.println("Enemy Slain!");
                                 validInput = true;
@@ -139,7 +145,7 @@ public class StoryNode {
                         int x = Util.enemyTurn((Encounter) this.output);
 
                         if (x == 1){
-                            System.out.println("> " + enemy.getName() + " attacked you for" + enemy.getEnemyDamage() + "damage!");
+                            System.out.println("> " + enemy.getName() + " Attacked You For " + enemy.getEnemyDamage() + " Damage!");
                         } else if(x == 2){
                             System.out.println("> " + enemy.getName() + " healed themselves for 3 health");
                         } else if(x == 3){

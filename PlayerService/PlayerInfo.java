@@ -1,5 +1,6 @@
 package PlayerService;
 
+import Renderer.Image;
 import StoryService.StoryNode;
 
 public class PlayerInfo {
@@ -9,12 +10,18 @@ public class PlayerInfo {
     protected static int actionPoints = 10; // Costs action points to attack/heal
     protected static int totalHP = 20;
 
+    protected static Image playerPortrait = new Image("H:\\TextBasedStory\\src\\Renderer\\Images\\rsz_knighthelmettemp.jpg", 0.75, null, true);
+
     protected static StoryNode currentNode;
 
     // Query Functions
 
     public static int getDamage() {
         return damage;
+    }
+
+    public static Image getPlayerPortrait() {
+        return playerPortrait;
     }
 
     public static int getHp() {
@@ -48,10 +55,13 @@ public class PlayerInfo {
         PlayerInfo.actionPoints += apMod;
     }
 
-    // TODO add exception to prevent HP from getting above max
-
     public static void healHP(int healHP){
-        PlayerInfo.hp += healHP;
+        if (PlayerInfo.hp + healHP < totalHP){
+            PlayerInfo.hp += healHP;
+        }else {
+            System.out.println("Cannot Overheal");
+        }
+
     }
 
     public static void setHp(int hp) {

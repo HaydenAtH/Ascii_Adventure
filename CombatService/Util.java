@@ -167,9 +167,9 @@ public class Util {
     }
 
     public static void printPlayerStats(){
-        System.out.println("Your Stats <");
+        System.out.println("> Your Stats");
         System.out.println(" ");
-        System.out.println("Your HP <");
+        System.out.println("> Your Health Points [How much health you have]");
         for (int i = 0; i < PlayerInfo.getTotalHP(); i++){
             if (i <= PlayerInfo.getHp()){
                 System.out.print("I");
@@ -177,14 +177,14 @@ public class Util {
                 System.out.print(".");
             }
         }
-        System.out.print("| " + PlayerInfo.getHp() + "/" + PlayerInfo.getTotalHP() + " <");
+        System.out.print("| " + PlayerInfo.getHp() + "/" + PlayerInfo.getTotalHP());
         System.out.println(" ");
 
-        System.out.println("Your AP <");
+        System.out.println("> Your Action Points [How much energy to perform actions you have]");
         for (int i = 0; i < PlayerInfo.getActionPoints(); i++){
             System.out.print("I");
         }
-        System.out.println("| " + PlayerInfo.getActionPoints() + " <");
+        System.out.println("| " + PlayerInfo.getActionPoints());
         System.out.println(" ");
         System.out.println("--------------------------------------------------------------------------------------");
     }

@@ -28,8 +28,6 @@ public class StoryOutput {
 
     }
 
-
-    //TODO Add exception for no image (Allow no image to be shown)
     public void activate() throws IOException {
         System.out.println("> " + this.textOutput);
         AsciiRenderer.render(img);
