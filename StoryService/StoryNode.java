@@ -56,6 +56,11 @@ public class StoryNode {
                         System.out.println("> " + this.getOutput());
                     } else if(Objects.equals(input, "quit")){
                         ModuleService.mainMenu();
+                    } else if(Objects.equals(input, "character")){
+                        System.out.println(PlayerInfo.getName());
+                        System.out.println("-----------------");
+                        Util.printPlayerStats();
+                        PlayerInfo.printPlayerAtts();
                     }
 
                     if (isValidOption(input) != -1){
