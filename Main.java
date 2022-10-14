@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.util.Scanner;
 
 public class Main {
-    static boolean MMBypass = false;
+    static boolean MMBypass = true;
 
 
     public static void main(String[] args) throws IOException, InterruptedException {
@@ -14,7 +14,7 @@ public class Main {
             System.out.println("> Without further ado... Welcome to");
             ModuleService.mainMenu();
         }else{
-            ModuleService.dialogueDemo();
+            ModuleService.gateDemo();
         }
     }
 

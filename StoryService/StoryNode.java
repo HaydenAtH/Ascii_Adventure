@@ -6,6 +6,7 @@ import OutputService.Encounter;
 import OutputService.StoryOutput;
 import PlayerService.PlayerInfo;
 import Renderer.AsciiRenderer;
+import com.sun.tools.jconsole.JConsolePlugin;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -41,6 +42,7 @@ public class StoryNode {
         //Warning: Some placeholder code present
 
         if (!this.output.getClass().getName().equals("OutputService.Encounter")){
+
             while (validInput == false){
                 h++;
 

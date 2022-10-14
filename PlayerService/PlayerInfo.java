@@ -10,6 +10,12 @@ public class PlayerInfo {
     protected static int actionPoints = 10; // Costs action points to attack/heal
     protected static int totalHP = 20;
 
+    protected static int wisdom;
+    protected static int strength;
+    protected static int agility;
+    protected static int endurance;
+    protected static int intelligence;
+
     protected static Image playerPortrait = new Image("H:\\TextBasedStory\\src\\Renderer\\Images\\rsz_knighthelmettemp.jpg", 0.75, null, true);
 
     protected static StoryNode currentNode;
