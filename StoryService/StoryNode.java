@@ -49,6 +49,7 @@ public class StoryNode {
                 String input = scanner.nextLine();
 
                 if (true){
+
                     if (Objects.equals(input, "debug")){
                         System.out.println("Debug Values Below: ");
                         System.out.println("> " + this.getName());
@@ -62,6 +63,7 @@ public class StoryNode {
                         Util.printPlayerStats();
                         PlayerInfo.printPlayerAtts();
                     }
+
 
                     if (isValidOption(input) != -1){
                         validInput = true;
@@ -163,13 +165,12 @@ public class StoryNode {
 
                         Util.printEnemyStats(enemy);
                         validInput = true;
-
-                        //TODO add exception for enemy death
                     }
                 }
                 t++;
                 validInput = false;
             }
+            this.sockets.get(0).activate();
         }
     }
 
@@ -198,8 +199,10 @@ public class StoryNode {
         }
 
         for (int z = 0; z < sockets.size(); z++){
-            System.out.println(" ");
-            System.out.println("> " + "Option " + (letters[z]) + ": " + sockets.get(z).getName());
+            if (sockets.get(z).checkReqStatus() == 0){
+                System.out.println(" ");
+                System.out.println("> " + "Option " + (letters[z]) + ": " + sockets.get(z).getName());
+            }
         }
     }
 
@@ -258,5 +261,9 @@ public class StoryNode {
 
     public void addBranch(StoryBranch newBranch){
         this.sockets.add(newBranch);
+    }
+
+    public void removeBranch(StoryBranch branch){
+        sockets.remove(branch);
     }
 }

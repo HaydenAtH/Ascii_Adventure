@@ -1,6 +1,8 @@
 package StoryService;
 
 import OutputService.StoryOutput;
+import PlayerService.Attribute;
+import PlayerService.PlayerInfo;
 
 import java.io.IOException;
 
@@ -9,6 +11,9 @@ public class StoryBranch {
     StoryNode endpoint;
     String name;
     StoryOutput output;
+
+    Attribute requirementAtt;
+    int requirementVal;
 
     public StoryBranch(StoryNode origin, StoryNode endpoint, StoryOutput output, String name){
         this.origin = origin;
@@ -26,6 +31,21 @@ public class StoryBranch {
 
         this.endpoint.setTriggeredBranch(this);
         this.endpoint.activate();
+    }
+
+    // 1 For removed
+    // 0 For kept
+
+    public int checkReqStatus(){
+        if (this.requirementAtt != null && this.requirementVal > 0){
+            if (PlayerInfo.findAttribute(this.requirementAtt) != null){
+                if (PlayerInfo.findAttribute(this.requirementAtt).getValue() < requirementVal){
+                    this.origin.removeBranch(this);
+                    return 1;
+                }
+            }
+        }
+        return 0;
     }
 
     // Declarative Statements
@@ -46,6 +66,14 @@ public class StoryBranch {
         this.name = name;
     }
 
+    public void setRequirementAtt(Attribute requirementAtt) {
+        this.requirementAtt = requirementAtt;
+    }
+
+    public void setRequirementVal(int requirementVal) {
+        this.requirementVal = requirementVal;
+    }
+
     // Query Statements
 
 
@@ -63,5 +91,13 @@ public class StoryBranch {
 
     public StoryNode getOrigin() {
         return origin;
+    }
+
+    public Attribute getRequirementAtt() {
+        return requirementAtt;
+    }
+
+    public int getRequirementVal() {
+        return requirementVal;
     }
 }

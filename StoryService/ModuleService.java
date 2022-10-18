@@ -67,11 +67,12 @@ public class ModuleService {
         System.out.println("> Each attribute can ONLY GO AS HIGH AS 20");
         System.out.println("> When you are happy with your character's attributes use the keyword 'DONE' to end character creation and return you to the main menu to start the game");
         System.out.println("----------------------------------------------------------------------------");
+        System.out.println("> You have 12 available points to work with");
         System.out.println(" ATTRIBUTES ");
         PlayerInfo.printPlayerAtts();
 
         boolean ccComplete = false;
-        int availablePoints = 7;
+        int availablePoints = 12;
 
         while (ccComplete == false){
 
@@ -94,44 +95,10 @@ public class ModuleService {
                 points = Math.abs(points);
             }
 
-            if (attribute.equals("strength")){
-                if (PlayerInfo.getStrength() + points > 20 && PlayerInfo.getIntelligence() + points < 0){
-                    System.out.println("The maximum attributes can be is 20");
-                }else {
-                    PlayerInfo.modStrength(points);
-                    modified = true;
-                }
-            }else if(attribute.equals("agility")){
-                if (PlayerInfo.getAgility() + points > 20 && PlayerInfo.getIntelligence() + points < 0){
-                    System.out.println("The maximum attributes can be is 20");
-                }else {
-                    PlayerInfo.modAgility(points);
-                    modified = true;
-                }
-            }else if(attribute.equals("endurance")){
-                if (PlayerInfo.getEndurance() + points > 20 && PlayerInfo.getIntelligence() + points < 0){
-                    System.out.println("The maximum attributes can be is 20");
-                }else {
-                    PlayerInfo.modEndurance(points);
-                    modified = true;
-                }
-            }else if(attribute.equals("wisdom")){
-                if (PlayerInfo.getWisdom() + points > 20 && PlayerInfo.getIntelligence() + points < 0){
-                    System.out.println("The maximum attributes can be is 20");
-                }else {
-                    PlayerInfo.modWisdom(points);
-                    modified = true;
-                }
-            }else if(attribute.equals("intelligence")){
-                if (PlayerInfo.getIntelligence() + points > 20 && PlayerInfo.getIntelligence() + points < 0){
-                    System.out.println("The maximum attributes can be is 20");
-                }else {
-                    PlayerInfo.modIntelligence(points);
-                    modified = true;
-                }
+            if (PlayerInfo.findAttributeByName(attribute) != null){
+                PlayerInfo.modifyAttribute(attribute, points);
+                modified = true;
             }
-
-
 
             if (modified){
                 availablePoints += -points;
@@ -152,11 +119,11 @@ public class ModuleService {
 
         Event gate_branch_open = new Event("Open The Gate", "With all your might you push the large wooden gate open revealing...", null);
         Event node_event_descTown = new Event("NodeEvent", "A bustling town, filled with traders, peasants, knights, and adventurers all living amongst each other", null);
-        Util.newNode("NextNode", node_event_descTown, gate_branch_open, originNode, "Open The Gate");
+        Util.newNode("NextNode", node_event_descTown, gate_branch_open, originNode, "Open The Gate",null, -1);
 
         Event gate_branch_investigate = new Event("Investigate", "You thoroughly investigate the area", null);
         Event node_event_investigationDesc = new Event("NodeEvent", "You discover a trap, you are unsure if it is for animals.. or people", null);
-        Util.newNode("NextNode2", node_event_investigationDesc, gate_branch_investigate, originNode, "Investigate");
+        Util.newNode("NextNode2", node_event_investigationDesc, gate_branch_investigate, originNode, "Investigate", PlayerInfo.findAttributeByName("agility"), 4);
 
         originNode.activate();
     }
@@ -167,7 +134,7 @@ public class ModuleService {
 
         Event dialogue_branch_greeting1 = new Event("Bonjour", "Frank Nods", null);
         DialogueEvent dialogue_node_greeting = new DialogueEvent("NodeEvent", "So how have you been?", null);
-        StoryNode dialogue1Node = Util.newNode("NextNode", dialogue_node_greeting, dialogue_branch_greeting1, originNode, "Bonjour");
+        StoryNode dialogue1Node = Util.newNode("NextNode", dialogue_node_greeting, dialogue_branch_greeting1, originNode, "Bonjour", null, -1);
 
         Event dialogue_branch_greeting2 = new Event("Bonjour", "Frank Nods", null);
         Util.newBranch(dialogue_branch_greeting2, originNode, dialogue1Node, "Hey!");
@@ -180,7 +147,7 @@ public class ModuleService {
 
     public static void combatDemo() throws IOException, InterruptedException {
 
-        Enemy enemy = new Enemy(10, 5, 20, "Skeleton", null);
+        Enemy enemy = new Enemy(10, 5, 1, "Skeleton", null);
         Encounter enctr = new Encounter("EncounterNode", "A Skeleton jumps you!", null);
         enctr.setEnemy(enemy);
 

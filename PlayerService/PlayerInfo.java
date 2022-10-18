@@ -2,6 +2,9 @@ package PlayerService;
 
 import Renderer.Image;
 import StoryService.StoryNode;
+import org.w3c.dom.Attr;
+
+import java.util.Locale;
 
 public class PlayerInfo {
     protected static int hp = 20; // Default HP
@@ -12,11 +15,13 @@ public class PlayerInfo {
 
     protected static String name = null;
 
-    protected static int wisdom = 10;
-    protected static int strength = 10;
-    protected static int agility = 10;
-    protected static int endurance = 10;
-    protected static int intelligence = 10;
+    protected static Attribute wisdom = new Attribute("wisdom", 10);
+    protected static Attribute strength = new Attribute("strength", 10);
+    protected static Attribute agility = new Attribute("agility", 10);
+    protected static Attribute endurance = new Attribute("endurance", 10);
+    protected static Attribute intelligence = new Attribute("intelligence", 10);;
+
+    protected static Attribute[] playerAttributes = {wisdom, strength, agility, endurance, intelligence};
 
     protected static int attackModifier = 0;
     protected static int actionPointsModifier = 0;
@@ -55,49 +60,41 @@ public class PlayerInfo {
         return name;
     }
 
-    public static int getAgility() {
-        return agility;
+    public static Attribute findAttributeByName(String name){
+        for (int i = 0; i < playerAttributes.length; i++){
+            if (playerAttributes[i].getName().equals(name.toLowerCase(Locale.ROOT))){
+                return playerAttributes[i];
+            }
+        }
+        return null;
     }
 
-    public static int getEndurance() {
-        return endurance;
+    public static Attribute findAttributeByValue(int value){
+        for (int i = 0; i < playerAttributes.length; i++){
+            if (playerAttributes[i].getValue() == value){
+                return playerAttributes[i];
+            }
+        }
+        return null;
     }
 
-    public static int getIntelligence() {
-        return intelligence;
-    }
-
-    public static int getStrength() {
-        return strength;
-    }
-
-    public static int getWisdom() {
-        return wisdom;
+    public static Attribute findAttribute(Attribute atb){
+        for (int i = 0; i < playerAttributes.length; i++){
+            if (playerAttributes[i] == atb){
+                return playerAttributes[i];
+            }
+        }
+        return null;
     }
 
     //Declarative/Modification Functions
 
-    public static void modStrength(int mod){
-        strength += mod;
-        attackModifier = Math.round(strength/10);
-    }
+   public static void modifyAttribute(String name, int modVal){
+        findAttributeByName(name).modValue(modVal);
+   }
 
-    public static void modAgility(int mod){
-        agility += mod;
-    }
-
-    public static void modEndurance(int mod){
-        endurance += mod;
-        actionPointsModifier = Math.round(endurance/10);
-        actionPoints = 10 + actionPointsModifier;
-    }
-
-    public static void modWisdom(int mod){
-        wisdom += mod;
-    }
-
-    public static void modIntelligence(int mod){
-        intelligence += mod;
+    public static void modifyAttribute(Attribute atb, int modVal){
+        findAttribute(atb).modValue(modVal);
     }
 
     public static void setName(String nwName) {
@@ -142,10 +139,10 @@ public class PlayerInfo {
     // Util
 
     public static void printPlayerAtts(){
-        System.out.println("Strength     | " + strength);
-        System.out.println("Agility      | " + agility);
-        System.out.println("Endurance    | " + endurance);
-        System.out.println("Wisdom       | " + wisdom);
-        System.out.println("Intelligence | " + intelligence);
+        System.out.println("Strength     | " + strength.getValue());
+        System.out.println("Agility      | " + agility.getValue());
+        System.out.println("Endurance    | " + endurance.getValue());
+        System.out.println("Wisdom       | " + wisdom.getValue());
+        System.out.println("Intelligence | " + intelligence.getValue());
     }
 }
