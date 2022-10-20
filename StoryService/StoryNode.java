@@ -198,10 +198,24 @@ public class StoryNode {
             sockets.add(traceBackBranch);
         }
 
+        boolean backAdded = false;
+
         for (int z = 0; z < sockets.size(); z++){
-            if (sockets.get(z).checkReqStatus() == 0){
+            if (sockets.get(z).getName().equals("Back") && backAdded == false){
                 System.out.println(" ");
                 System.out.println("> " + "Option " + (letters[z]) + ": " + sockets.get(z).getName());
+                backAdded = true;
+                return;
+            }
+
+            if (sockets.get(z).checkReqStatus() == 0){
+                if (sockets.get(z).getRequirementAtt() != null){
+                    System.out.println(" ");
+                    System.out.println("> " + "Option " + (letters[z]) + " [" + sockets.get(z).getRequirementAtt().getName().toUpperCase() + "]" + ": " + sockets.get(z).getName());
+                }else {
+                    System.out.println(" ");
+                    System.out.println("> " + "Option " + (letters[z]) + ": " + sockets.get(z).getName());
+                }
             }
         }
     }
@@ -219,7 +233,7 @@ public class StoryNode {
 
     public boolean socketsHas(String inp){
         for (int i = 0; i < sockets.size(); i++){
-            if (Objects.equals(sockets.get(i).getName(), inp)){
+            if (sockets.get(i).getName().equals(inp)){
                 return true;
             }
         }

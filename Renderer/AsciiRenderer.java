@@ -52,7 +52,7 @@ public class AsciiRenderer {
 
     // [Renders an Image object]
     public static void render(Image img) throws IOException {
-        if (img != null) {
+        if (img != null && ImageIO.read(new File(img.fileName)) != null){
             String imagePath = img.fileName;
             BufferedImage myPicture = ImageIO.read(new File(imagePath));
 

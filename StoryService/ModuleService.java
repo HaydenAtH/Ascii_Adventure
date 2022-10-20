@@ -82,6 +82,7 @@ public class ModuleService {
             if (keyword.equals("DONE")){
                 System.out.println("-----------------------------------------------------------------------------------------------------------------------------------------------------------");
                 ModuleService.mainMenu();
+                ccComplete = true;
             }
 
             String attribute = scnr.next();
@@ -147,7 +148,7 @@ public class ModuleService {
 
     public static void combatDemo() throws IOException, InterruptedException {
 
-        Enemy enemy = new Enemy(10, 5, 1, "Skeleton", null);
+        Enemy enemy = new Enemy(10, 5, 10, "Skeleton", null);
         Encounter enctr = new Encounter("EncounterNode", "A Skeleton jumps you!", null);
         enctr.setEnemy(enemy);
 
