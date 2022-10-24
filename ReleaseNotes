@@ -1,20 +1,14 @@
 #Known Bugs
 
--Dialogue nodes contain an extra "Back" Option
--Wall of text is sometimes displayed after Character Creator
+-Occasional visual bugs with the combat turns
 
 #Release Notes
-0.2.0
+0.1.3
 
--Combat released for general use [NOT COMPLETE]
--Variable enabled branches
--Support for variable enabled branches
--Player attributes refactor
--Finished character creator, including name and attributes
+-Implemented initial functionality of combat system
+-Expanded support for player and enemy classes with accompanying image files (Only for enemies atm)
+-Support for utility functions in all added services
 
-#To-Do
--Add combat visual clarity
--Implement attributes into combats in the form of bonuses
--Add roll feature to character creator
--Add help command
--
+
+#3 AM TO-DOs
+-Moved to github project

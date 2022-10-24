@@ -191,6 +191,7 @@ public class StoryNode {
     }
 
     public void printOptions() {
+        System.out.println(" ");
         System.out.print("--------------------------------------------------------------------------------------");
 
         if (this.output.getClass().getName().equals("OutputService.DialogueEvent") && !socketsHas("Back")){

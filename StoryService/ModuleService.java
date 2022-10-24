@@ -9,6 +9,7 @@ import Renderer.AsciiRenderer;
 import Renderer.Image;
 
 import java.io.IOException;
+import java.lang.reflect.Method;
 import java.util.Scanner;
 
 // ModuleService is a storage area for experiences where I write all the nodes/connections and can be easily activated/called from main
@@ -18,6 +19,8 @@ public class ModuleService {
     static Image monaLisa = new Image("H:\\TextBasedStory\\src\\Renderer\\Images\\monaLisa.jpg", 0.75, null, false);
     static Scanner scnr = new Scanner(System.in);
 
+    static boolean firstLoaded = false;
+
     public static void mainMenu() throws InterruptedException, IOException {
         Image logo = new Image("H:\\TextBasedStory\\src\\Renderer\\Images\\Logo.jpg", 1, null, true);
         boolean mmValidInput = false;
@@ -25,7 +28,11 @@ public class ModuleService {
 
         Thread.sleep(1000);
         System.out.println("-----------------------------------------------------------------------------------------------------------------------------------------------------------");
-        AsciiRenderer.render(logo);
+        if (firstLoaded == false){
+            AsciiRenderer.render(logo);
+            firstLoaded = true;
+        }
+
         System.out.println(" ");
         System.out.println(" ");
         Thread.sleep(1000);
@@ -35,6 +42,8 @@ public class ModuleService {
         System.out.println("> The 'help' command can also be used to view a list of available commands at any time");
         System.out.println(" ");
         System.out.println("> Character Creator [CC]");
+        System.out.println("> Tutorial/Main Story [MS]");
+        System.out.println("> Gate Demo [DEBUG]");
 
         while (mmValidInput == false){
             String input = scnr.nextLine();
@@ -45,12 +54,16 @@ public class ModuleService {
             }else if(input.equals("Character Creator") || input.equals("CC")){
                 mmValidInput = true;
                 ModuleService.characterCreator();
+            }else if (input.equals("MS")){
+                mmValidInput = true;
+                ModuleService.tutorial();
             }
         }
     }
 
     public static void characterCreator() throws IOException, InterruptedException {
         System.out.println("-----------------------------------------------------------------------------------------------------------------------------------------------------------");
+
         if (PlayerInfo.getName() == null){
             System.out.println("Before you edit your character's attributes, give your warrior, mage, or assassin a friendly or not so friendly name");
             String nwName = scnr.nextLine();
@@ -80,13 +93,12 @@ public class ModuleService {
             String keyword = scnr.next();
 
             if (keyword.equals("DONE")){
-                System.out.println("-----------------------------------------------------------------------------------------------------------------------------------------------------------");
                 ModuleService.mainMenu();
                 ccComplete = true;
             }
 
             String attribute = scnr.next();
-            int points = scnr.nextInt();
+            int points = (int) scnr.nextInt();
 
             boolean modified = false;
 
@@ -97,25 +109,30 @@ public class ModuleService {
             }
 
             if (PlayerInfo.findAttributeByName(attribute) != null){
-                PlayerInfo.modifyAttribute(attribute, points);
-                modified = true;
+                if ((PlayerInfo.findAttributeByName(attribute).getValue() + points) <= 20){
+                    PlayerInfo.modifyAttribute(attribute, points);
+                    modified = true;
+                }else{
+                    System.out.println("> Attributes may not exceed 20 points in value");
+                }
             }
 
             if (modified){
-                availablePoints += -points;
-                System.out.println(attribute.toUpperCase() + " Modified by " + points);
-                System.out.println("You have " + availablePoints + " available points remaining");
-                System.out.println("------------------------------------------------------------------------------");
-                PlayerInfo.printPlayerAtts();
-
-
-
+                if ((availablePoints + -points) >= 0){
+                    availablePoints += -points;
+                    System.out.println(attribute.toUpperCase() + " Modified by " + points);
+                    System.out.println("You have " + availablePoints + " available points remaining");
+                    System.out.println("------------------------------------------------------------------------------");
+                    PlayerInfo.printPlayerAtts();
+                }else {
+                    System.out.println("> Not enough available points");
+                }
             }
         }
 
     }
     public static void gateDemo() throws IOException, InterruptedException {
-        Event originEvent = new Event("OriginEvent", "You walk towards the large wooden gate, aged by rain, snow and bloodshed. The thick, snowy hills surround you with tundra and large alpine trees block the sun", null);
+        Event originEvent = new Event("OriginEvent", "You walk towards the large wooden gate, aged by rain, snow and bloodshed. The thick, snowy hills surround you with tundra and /nl/ large alpine trees block the sun", null);
         StoryNode originNode = new StoryNode("OriginNode", originEvent);
 
         Event gate_branch_open = new Event("Open The Gate", "With all your might you push the large wooden gate open revealing...", null);
@@ -154,6 +171,10 @@ public class ModuleService {
 
         StoryNode originNode = new StoryNode("OriginNode", enctr);
         originNode.activate();
+    }
+
+    public static void tutorial() throws IOException, InterruptedException {
+
     }
 
     //Util.newNode("NewNode", test, );

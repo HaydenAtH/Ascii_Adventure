@@ -6,6 +6,7 @@ import StoryService.StoryNode;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class StoryOutput {
 
@@ -15,6 +16,8 @@ public class StoryOutput {
     protected Image img;
 
     protected StoryNode parentNode;
+
+    protected ArrayList<Integer> tabPoints = new ArrayList<Integer>();
 
 
 
@@ -29,8 +32,22 @@ public class StoryOutput {
     }
 
     public void activate() throws IOException {
-        System.out.println("> " + this.textOutput);
+        String str = this.textOutput;
+        Scanner strScanner = new Scanner(this.textOutput);
+
+        //System.out.println(this.textOutput);
+
+        // Mega unoptimized code ahead
+
         AsciiRenderer.render(img);
+
+        for (int i = 0; i < str.length(); i++){
+            if(str.charAt(i) == '/' && str.charAt(i + 1) == 'n' && str.charAt(i + 2) == 'l'){
+                System.out.println("");
+                i += 4;
+            }
+            System.out.print(str.charAt(i));
+        }
     }
 
 
