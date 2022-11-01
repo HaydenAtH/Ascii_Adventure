@@ -15,8 +15,9 @@ import java.util.Scanner;
 // ModuleService is a storage area for experiences where I write all the nodes/connections and can be easily activated/called from main
 public class ModuleService {
 
-    Image prlEarings = new Image("H:\\TextBasedStory\\src\\Renderer\\Images\\pearlEarings.jpg", 1.05, null, false);
+    static Image prlEarings = new Image("H:\\TextBasedStory\\src\\Renderer\\Images\\pearlEarings.jpg", 1.05, null, false);
     static Image monaLisa = new Image("H:\\TextBasedStory\\src\\Renderer\\Images\\monaLisa.jpg", 0.75, null, false);
+    static Image prologueMountains = new Image("H:\\TextBasedStory\\src\\Renderer\\Images\\PrologueMountain.jpg", 0.95, null, true);
     static Scanner scnr = new Scanner(System.in);
 
     static boolean firstLoaded = false;
@@ -109,11 +110,11 @@ public class ModuleService {
             }
 
             if (PlayerInfo.findAttributeByName(attribute) != null){
-                if ((PlayerInfo.findAttributeByName(attribute).getValue() + points) <= 20){
+                if ((PlayerInfo.findAttributeByName(attribute).getValue() + points) <= 20 && (PlayerInfo.findAttributeByName(attribute).getValue() + points) >= 0){
                     PlayerInfo.modifyAttribute(attribute, points);
                     modified = true;
                 }else{
-                    System.out.println("> Attributes may not exceed 20 points in value");
+                    System.out.println("> Attributes may not exceed 20 points in value and must be at least 0");
                 }
             }
 
@@ -174,7 +175,30 @@ public class ModuleService {
     }
 
     public static void tutorial() throws IOException, InterruptedException {
+        System.out.println("The Beautiful world of Allor, vibrant trees, vast mountains and various species, \nas grand and marvelous as they are dangerous.");
+        Thread.sleep(4000);
+        AsciiRenderer.render(prologueMountains);
+        System.out.println("----------------------------------------");
+        System.out.println("The main rulers of this land are the Elves and Humans, rivaled by blood and decades of torment between the two civilizations");
+        System.out.println("You, " + PlayerInfo.getName() + ", are an agent of the Elvish government, and as you'll soon find out, you have been given an extremely \n important mission to eliminate the High King of the humans in his mountainside estate");
 
+        Thread.sleep(5000);
+
+        System.out.println("So wake up agent, there's a job to do . . . . .");
+
+        Thread.sleep(2000);
+
+        System.out.println("'Wake up " + PlayerInfo.getName() + " training's today', the instructor says, an unhappy look on his face \n while you climb out of your bed, late for training");
+        System.out.println("You've been training for multiple months, just for one mission, to eliminate the human high king, your training is \n elaborate and dangerous but the day has almost arrived. You are set to execute the mission tomorrow at \n at the crack of dawn");
+
+        Thread.sleep(7000);
+
+        Event originEvent = new Event("OriginEvent", "You walk onto the training field, multiple wooden structures dot the large warehouse, all of them dented excessively \n You have been quite familiar with these in your training, they were built to look like human structures. \n You see your instructor and approach him, he turns towards you ", null);
+        StoryNode originNode = new StoryNode("OriginNode", originEvent);
+
+        Event greet1_branch_event = new Event("Hello sir", "You greet him formally and coldly", null);
+        Event greet1_node_event = new Event("NodeEvent", "He is taken aback, 'Have we not known each other long enough for you to stop calling me sir?' ", null);
+        StoryNode tutorialGreeting = Util.newNode("NextNode", greet1_node_event, greet1_branch_event, originNode, "Open The Gate",null, -1);
     }
 
     //Util.newNode("NewNode", test, );
