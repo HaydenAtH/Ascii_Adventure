@@ -45,7 +45,7 @@ public class ModuleService {
         System.out.println("> Tutorial/Main Story [MS]");
         System.out.println("> Gate Demo [DEBUG]");
 
-        while (mmValidInput == false){
+        while (!mmValidInput){
             String input = scnr.nextLine();
 
             if (input.equals("Demo Level")){
@@ -174,6 +174,11 @@ public class ModuleService {
     }
 
     public static void tutorial() throws IOException, InterruptedException {
+
+        // This framework is a hell of my own creation
+
+        // Temporary Commenting of the intro sequence
+        /* 
         System.out.println("The Beautiful world of Allor, vibrant trees, vast mountains and various species, \nas grand and marvelous as they are dangerous.");
         Thread.sleep(4000);
         AsciiRenderer.render(prologueMountains);
@@ -188,29 +193,39 @@ public class ModuleService {
         Thread.sleep(2000);
 
         System.out.println("'Wake up " + PlayerInfo.getName() + " training's today', the instructor says, an unhappy look on his face \n while you climb out of your bed, late for training");
-        System.out.println("You've been training for multiple months, just for one mission, to eliminate the human high king, your training is \n elaborate and dangerous but the day has almost arrived. You are set to execute the mission tomorrow at \n at the crack of dawn");
 
         Thread.sleep(7000);
+        */
 
         Event originEvent = new Event("OriginEvent", "You walk onto the training field, multiple wooden structures dot the large warehouse, all of them dented excessively \n You have been quite familiar with these in your training, they were built to look like human structures. \n You see your instructor and approach him, he turns towards you ", null);
         StoryNode originNode = new StoryNode("OriginNode", originEvent);
 
         System.out.println("Tool Tip: To select an option, input [Option Letter] or [Option Name]");
 
-        Event greet1_branch_event = new Event("Hello sir", "You greet him formally and coldly", null);
-        Event greet1_node_event = new Event("NodeEvent", "He is taken aback, 'Have we not known each other long enough for you to stop calling me sir? Anyways welcome to training, we'll be using these custom built fake human structures \n to mimick life in the field, you'll be facing off against your peers as they act as human guards attempting to stop you from eliminating them. Ready?' ", null);
+        Event greet1_branch_event = new Event("Hello sir", "You greet him formally and coldly, 'He is taken aback, 'Have we not known each other long enough for you to stop calling me sir?'", null);
+        Event greet1_node_event = new Event("NodeEvent", "'Anyways welcome to training, we'll be using these custom built fake human structures \n to mimick life in the field, you'll be facing off against your peers as they act as human guards attempting to stop you from eliminating them. Ready?' ", null);
         StoryNode tutorialGreeting = Util.newNode("NextNode", greet1_node_event, greet1_branch_event, originNode, "Greet Him Formally",null, -1);
 
-        Event greet2_branch_event = new Event("Howdy", "You greet him warmly as a friend would", null);
-        Event greet2_node_event = new Event("NodeEvent", "He returns the favor giving you a hearty pat on the back, 'welcome to training, we'll be using these custom built fake human structures \n to mimick life in the field, you'll be facing off against your peers as they act as human guards attempting to stop you from eliminating them. Ready? Ready?'", null);
-        StoryNode tutorialGreeting2 = Util.newNode("NextNode", greet1_node_event, greet1_branch_event, originNode, "Greet him warmily",null, -1);
 
-        Event tutorial_intro_branchEvent = new Event("Hello sir", "You greet him formally and coldly", null);
-        Event tutorial_intro_nodeEvent = new Event("NodeEvent", "He is taken aback, 'Have we not known each other long enough for you to stop calling me sir?' ", null);
-        StoryNode tutorialIntro = Util.newNode("NextNode", greet1_node_event, greet1_branch_event, originNode, "Open The Gate",null, -1);
+        Event greet2_branch_event = new Event("Howdy", "You greet him warmly as a friend would, he returns the favor with a pat on the back", null);
+
+        Util.newBranch(greet2_branch_event,originNode, tutorialGreeting, "Greet Him Informally");
+
+        Event tutorial_intro_branchEvent2 = new Event("No", "'Well suck it up'", null);
+
+        Event tutorial_intro_branchEvent = new Event("Yes", "You agree and walk with him into the training area", null);
+        Event tutorial_intro_nodeEvent = new Event("NodeEvent", "You see the full breadth of the dimly lit training area, with your peers getting into position as stand-in human guards around a fake farm house, \n your trainer says behind you 'To Begin pick an infil point,\n use the points that lend to your natural skills'", null);
+        StoryNode tutorialIntro = Util.newNode("NextNode", tutorial_intro_nodeEvent, tutorial_intro_branchEvent, tutorialGreeting, "Agree",null, -1);
+        Util.newBranch(tutorial_intro_branchEvent2, tutorialGreeting, tutorialIntro, "Disagree");
+
+        // Back Door Route
+
+        //Event tutorial_intro_branchEvent = new Event("Back Door Start", "You navigate around the back of the barn, and carefully enter. \n you see two people chatting on a lower level", null);
+        //Event tutorial_intro_nodeEvent = new Event("NodeEvent", "You see the full breadth of the dimly lit training area, with your peers getting into position as stand-in human guards, \n your trainer says behind you 'To Begin pick an infil point,\n use the points that lend to your natural skills'", null);
+        //StoryNode tutorialIntro = Util.newNode("NextNode", tutorial_intro_nodeEvent, tutorial_intro_branchEvent, tutorialGreeting, "Go Through The Back Door of the Barn",null, -1);
 
 
-
+        originEvent.activate();
 
     }
 

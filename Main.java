@@ -13,7 +13,7 @@ public class Main {
             System.out.println("> Without further ado... Welcome to");
             ModuleService.mainMenu();
         }else{
-            ModuleService.characterCreator();
+            ModuleService.tutorial();
         }
     }
 
