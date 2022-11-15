@@ -220,10 +220,16 @@ public class ModuleService {
 
         // Back Door Route
 
-        //Event tutorial_intro_branchEvent = new Event("Back Door Start", "You navigate around the back of the barn, and carefully enter. \n you see two people chatting on a lower level", null);
-        //Event tutorial_intro_nodeEvent = new Event("NodeEvent", "You see the full breadth of the dimly lit training area, with your peers getting into position as stand-in human guards, \n your trainer says behind you 'To Begin pick an infil point,\n use the points that lend to your natural skills'", null);
-        //StoryNode tutorialIntro = Util.newNode("NextNode", tutorial_intro_nodeEvent, tutorial_intro_branchEvent, tutorialGreeting, "Go Through The Back Door of the Barn",null, -1);
+        Event backdoor_start_branchEvent = new Event("Back Door Start", "You navigate around the back of the barn, and carefully enter.", null);
+        Event backdoor_start_nodeEvent = new Event("NodeEvent", " you see two people chatting on a lower level", null);
+        StoryNode backdoorStart = Util.newNode("NextNode", backdoor_start_nodeEvent, backdoor_start_branchEvent, tutorialIntro, "Go Through The Back Door of the Barn",null, -1);
 
+        Enemy enemy = new Enemy(10, 5, 14, "Guard", null);
+        Event attack_bottom_two_branchEvent = new Event("Attack Bottom Two", "You dispatch one of the guards, but go into combat with the other", null);
+        Encounter attack_bottom_two_nodeEvent = new Encounter("NodeEvent", "You dispatch the other guard, but the other guard is alerted to your presence", null);
+        attack_bottom_two_nodeEvent.setEnemy(enemy);
+
+        Util.newNode("Attack Guards", attack_bottom_two_branchEvent, attack_bottom_two_nodeEvent, backdoorStart, "Attack the Two Guards [Combat]", null, 0);
 
         originEvent.activate();
 
