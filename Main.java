@@ -6,8 +6,7 @@ import java.io.IOException;
 import java.util.Scanner;
 
 public class Main {
-    static boolean MMBypass = trbobue;
-
+    static boolean MMBypass = true;
 
     public static void main(String[] args) throws IOException, InterruptedException {
         if (MMBypass == false){

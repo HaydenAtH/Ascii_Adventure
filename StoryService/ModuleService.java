@@ -9,7 +9,6 @@ import Renderer.AsciiRenderer;
 import Renderer.Image;
 
 import java.io.IOException;
-import java.lang.reflect.Method;
 import java.util.Scanner;
 
 // ModuleService is a storage area for experiences where I write all the nodes/connections and can be easily activated/called from main
@@ -68,8 +67,8 @@ public class ModuleService {
         if (PlayerInfo.getName() == null){
             System.out.println("Before you edit your character's attributes, give your warrior, mage, or assassin a friendly or not so friendly name");
             String nwName = scnr.nextLine();
-            PlayerInfo.setName(nwName);
-            System.out.println("Alright.. a little weird, but no judgement");
+            PlayerInfo.setName(nwName); 
+            System.out.println("Alright.. a little weird, but no judgement"); // Yeah it's just scripted lol
             System.out.println("Now that your mighty warrior has a name lets adjust what makes them tall, thin, strong, weak, and everything in between");
             System.out.println("----------------------------------------------------------------------------");
         }
@@ -180,7 +179,7 @@ public class ModuleService {
         AsciiRenderer.render(prologueMountains);
         System.out.println("----------------------------------------");
         System.out.println("The main rulers of this land are the Elves and Humans, rivaled by blood and decades of torment between the two civilizations");
-        System.out.println("You, " + PlayerInfo.getName() + ", are an agent of the Elvish government, and as you'll soon find out, you have been given an extremely \n important mission to eliminate the High King of the humans in his mountainside estate");
+        System.out.println("Elves train their angents for years, making them incredible adversaries, you " + PlayerInfo.getName() + ", are one of these agents");
 
         Thread.sleep(5000);
 
@@ -196,9 +195,23 @@ public class ModuleService {
         Event originEvent = new Event("OriginEvent", "You walk onto the training field, multiple wooden structures dot the large warehouse, all of them dented excessively \n You have been quite familiar with these in your training, they were built to look like human structures. \n You see your instructor and approach him, he turns towards you ", null);
         StoryNode originNode = new StoryNode("OriginNode", originEvent);
 
+        System.out.println("Tool Tip: To select an option, input [Option Letter] or [Option Name]");
+
         Event greet1_branch_event = new Event("Hello sir", "You greet him formally and coldly", null);
-        Event greet1_node_event = new Event("NodeEvent", "He is taken aback, 'Have we not known each other long enough for you to stop calling me sir?' ", null);
-        StoryNode tutorialGreeting = Util.newNode("NextNode", greet1_node_event, greet1_branch_event, originNode, "Open The Gate",null, -1);
+        Event greet1_node_event = new Event("NodeEvent", "He is taken aback, 'Have we not known each other long enough for you to stop calling me sir? Anyways welcome to training, we'll be using these custom built fake human structures \n to mimick life in the field, you'll be facing off against your peers as they act as human guards attempting to stop you from eliminating them. Ready?' ", null);
+        StoryNode tutorialGreeting = Util.newNode("NextNode", greet1_node_event, greet1_branch_event, originNode, "Greet Him Formally",null, -1);
+
+        Event greet2_branch_event = new Event("Howdy", "You greet him warmly as a friend would", null);
+        Event greet2_node_event = new Event("NodeEvent", "He returns the favor giving you a hearty pat on the back, 'welcome to training, we'll be using these custom built fake human structures \n to mimick life in the field, you'll be facing off against your peers as they act as human guards attempting to stop you from eliminating them. Ready? Ready?'", null);
+        StoryNode tutorialGreeting2 = Util.newNode("NextNode", greet1_node_event, greet1_branch_event, originNode, "Greet him warmily",null, -1);
+
+        Event tutorial_intro_branchEvent = new Event("Hello sir", "You greet him formally and coldly", null);
+        Event tutorial_intro_nodeEvent = new Event("NodeEvent", "He is taken aback, 'Have we not known each other long enough for you to stop calling me sir?' ", null);
+        StoryNode tutorialIntro = Util.newNode("NextNode", greet1_node_event, greet1_branch_event, originNode, "Open The Gate",null, -1);
+
+
+
+
     }
 
     //Util.newNode("NewNode", test, );
